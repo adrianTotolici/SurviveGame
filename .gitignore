@@ -48,3 +48,16 @@ Thumbs.db
 *.mov
 *.wmv
 
+# Unit
+Library/
+Logs/
+UserSettings/
+ProjectSettings/
+obj/
+Packages/
+.vsconfig
+Assembly-CSharp
+game1.sln
+README.md
+
+
