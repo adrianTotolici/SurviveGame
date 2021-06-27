@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 262555720}
   - component: {fileID: 262555722}
   - component: {fileID: 262555721}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: GameName
   m_TagString: UI
   m_Icon: {fileID: 0}
@@ -213,7 +213,7 @@ GameObject:
   - component: {fileID: 307865788}
   - component: {fileID: 307865790}
   - component: {fileID: 307865789}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: TextButtonStart
   m_TagString: UI
   m_Icon: {fileID: 0}
@@ -292,9 +292,9 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Main Camera
-  m_TagString: MainCamera
+  m_TagString: UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -306,7 +306,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -376,7 +376,7 @@ GameObject:
   - component: {fileID: 670456569}
   - component: {fileID: 670456568}
   - component: {fileID: 670456567}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: ExitButton
   m_TagString: UI
   m_Icon: {fileID: 0}
@@ -447,9 +447,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3763426633241652470, guid: 2140cb4646b8aa54598291b4b0727b68, type: 3}
-        m_TargetAssemblyTypeName: MenuManger, Assembly-CSharp
-        m_MethodName: Exit_Game
+      - m_Target: {fileID: 5367333015384037540, guid: ba78a76c231a3ca43bf0a69cdb8a52c9, type: 3}
+        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+        m_MethodName: exit_game
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -510,7 +510,7 @@ GameObject:
   - component: {fileID: 1523381554}
   - component: {fileID: 1523381553}
   - component: {fileID: 1523381557}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Canvas
   m_TagString: UI
   m_Icon: {fileID: 0}
@@ -626,9 +626,9 @@ GameObject:
   - component: {fileID: 1759537667}
   - component: {fileID: 1759537666}
   - component: {fileID: 1759537665}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: EventSystem
-  m_TagString: Untagged
+  m_TagString: UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -693,7 +693,7 @@ GameObject:
   - component: {fileID: 1868887597}
   - component: {fileID: 1868887596}
   - component: {fileID: 1868887595}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: StartButton
   m_TagString: UI
   m_Icon: {fileID: 0}
@@ -764,9 +764,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3763426633241652470, guid: 2140cb4646b8aa54598291b4b0727b68, type: 3}
-        m_TargetAssemblyTypeName: MenuManger, Assembly-CSharp
-        m_MethodName: StartGame
+      - m_Target: {fileID: 5367333015384037540, guid: ba78a76c231a3ca43bf0a69cdb8a52c9, type: 3}
+        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+        m_MethodName: start_game
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -825,7 +825,7 @@ GameObject:
   - component: {fileID: 2041123910}
   - component: {fileID: 2041123912}
   - component: {fileID: 2041123911}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: TextButtonExit
   m_TagString: UI
   m_Icon: {fileID: 0}

@@ -56,8 +56,11 @@ ProjectSettings/
 obj/
 Packages/
 .vsconfig
-Assembly-CSharp
+Assembly-CSharp*
 game1.sln
 README.md
+Temp/
+build/
+.vs/
 
 

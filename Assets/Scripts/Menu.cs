@@ -31,8 +31,10 @@ public class Menu : MonoBehaviour
     // Start game scene
     public void start_game()
     {
-        print("Start Game");
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.UnloadSceneAsync("MenuScene");
+        SceneManager.LoadSceneAsync("PlayScene", LoadSceneMode.Single);
+        Scene playScene = SceneManager.GetSceneByName("PlayScene");
+        SceneManager.SetActiveScene(playScene);
     }
 
     // Exit Game

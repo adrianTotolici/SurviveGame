@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7903413788087004878}
   - component: {fileID: 5367333015384037540}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: MainMenu
-  m_TagString: Untagged
+  m_TagString: UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
