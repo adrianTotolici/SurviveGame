@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 using Random = UnityEngine.Random;
 
 namespace Completed
@@ -32,115 +33,103 @@ namespace Completed
         public GameObject[] terrain4;
         // Terrain type 5
         public GameObject[] terrain5;
-        // List with all terrain tiles
-        private GameObject[] terrainTiles;
         // object instance od a terrain tile
         private GameObject tileInstance;
-
         // boarHolder
         private Transform boardHolder;
-        // store position of tiles on grid
-        private List<Vector3> gridPostions = new List<Vector3>();
 
         // restriction in N of current tile 
-        private string nord_face;
+        private string nord_face = none;
         // restriction in V of current tile 
-        private string vest_face;
+        private string vest_face = none;
         // random tile selection for adding on map
         private int randomTile;
         // random rotation of curent selected tile
         private int rotation;
         // array with all restriction on V tile
-        private string[] drawPosition = new string[columns];
+        private List<String> drawPosition = new List<string>();
+
+        private GameObject chosenTile;
+        private float gridPositionX;
+        private float gridPositionY;
+
 
         private const string land = "land";
         private const string water = "water";
         private const string none = "not set";
         private const string boardName = "Board";
-        public const int columns = 32;
-        public const int rows = 32;
-
-        void InitialiseList()
-        {
-            gridPostions.Clear();
-            for (int x = 1; x < columns - 1; x++)
-            {
-                for (int y = 1; y < rows - 1; y++)
-                {
-                    gridPostions.Add(new Vector3(x, y, 0f));
-                }
-            }
-        }
+        public const int columns = 10;
+        public const int rows = 10;
 
         void BoardSetup()
         {
             boardHolder = new GameObject(boardName).transform;
-            nord_face = none;
-            vest_face = none;
-            GameObject toInstantiate;
-            string[] prev_drawPosition;
+            List<String> prev_drawPosition = new List<string>();
 
 
             for (int x = 0; x < columns; x++)
             {
+                gridPositionX = x*1.2f;
+                nord_face = none;
+                if (x > 0)
+                {
+                    prev_drawPosition = drawPosition.ToList();
+                    drawPosition.Clear();
+                }
+                Debug.Log("------------------------------------------------");
                 for (int y = 0; y < rows; y++)
                 {
+                    gridPositionY = y*1.2f;
                     bool validating = true;
+                    Debug.Log("+++++++++");
                     if (x > 0)
                     {
-                        prev_drawPosition = drawPosition;
-                        drawPosition.Initialize();
-                        vest_face = prev_drawPosition[y];
+                        vest_face = prev_drawPosition[y].ToString();
                     }
                     if (y == 0)
                         nord_face = none;
 
+                    Debug.Log("1. Vest Face: " + vest_face);
+                    Debug.Log("2. Nord Face: " + nord_face);
                     while (validating) {
-                        randomTile = Random.Range(1, 5);
+                        randomTile = Random.Range(1, 6);
                         switch (randomTile)
                         {
                             case 1:
-                                toInstantiate = terrainTiles[Random.Range(0, terrain1.Length)];
-                                tileInstance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity);
-                                if (tilePlacement())
-                                    validating = false;
-                                tileInstance.transform.SetParent(boardHolder);
+                                chosenTile = terrain1[0];
+                                Debug.Log("Tile type 1");
                                 break;
                             case 2:
-                                toInstantiate = terrainTiles[Random.Range(0, terrain2.Length)];
-                                tileInstance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity);
-                                if (tilePlacement())
-                                    validating = false;
-                                tileInstance.transform.SetParent(boardHolder);
+                                chosenTile = terrain2[0];
+                                Debug.Log("Tile type 2");
                                 break;
                             case 3:
-                                toInstantiate = terrainTiles[Random.Range(0, terrain3.Length)];
-                                tileInstance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity);
-                                if (tilePlacement())
-                                    validating = false;
-                                tileInstance.transform.SetParent(boardHolder);
+                                chosenTile = terrain3[0];
+                                Debug.Log("Tile type 3");
                                 break;
                             case 4:
-                                toInstantiate = terrainTiles[Random.Range(0, terrain4.Length)];
-                                tileInstance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity);
-                                if (tilePlacement())
-                                    validating = false;
-                                tileInstance.transform.SetParent(boardHolder);
+                                chosenTile = terrain4[0];
+                                Debug.Log("Tile type 4");
                                 break;
-                            case 5:
-                                toInstantiate = terrainTiles[Random.Range(0, terrain5.Length)];
-                                tileInstance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity);
-                                if (tilePlacement())
-                                    validating = false;
-                                tileInstance.transform.SetParent(boardHolder);
+                            default:
+                                chosenTile = terrain5[Random.Range(0, terrain5.Length)];
+                                Debug.Log("Tile type 5");
                                 break;
                         }
+
+                    if (TilePlacement())
+                    {
+                        validating = false;
+                        Debug.Log("Validation Success");
+                    }
+                    else
+                        Debug.Log("Validation failed");
                     }             
                 }
             }
         }
 
-        Boolean validateTile()
+        Boolean ValidateTile()
         {
             // Validate first tile row 1 column 1 
             if ((nord_face is none) && (vest_face is none))
@@ -149,7 +138,7 @@ namespace Completed
                 {
                     case 1:
                         nord_face = land;
-                        drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                        drawPosition.Add(land);
                         return true;
                     case 2:
                         if ((rotation == 0) || (rotation == 270))
@@ -158,9 +147,9 @@ namespace Completed
                             nord_face = land;
 
                         if ((rotation == 0) || (rotation == 90))
-                            drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                            drawPosition.Add(land);
                         else
-                            drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                            drawPosition.Add(water);
                         return true;
                     case 3:
                         if (rotation == 180)
@@ -169,9 +158,9 @@ namespace Completed
                             nord_face = water;
 
                         if (rotation == 90)
-                            drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                            drawPosition.Add(land);
                         else
-                            drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                            drawPosition.Add(water);
                         return true;
                     case 4:
                         if (rotation == 270)
@@ -180,13 +169,13 @@ namespace Completed
                             nord_face = land;
 
                         if (rotation == 180)
-                            drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                            drawPosition.Add(water);
                         else
-                            drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                            drawPosition.Add(land);
                         return true;
                     case 5:
                         nord_face = water;
-                        drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                        drawPosition.Add(water);
                         return true;
                 }
             }
@@ -197,19 +186,19 @@ namespace Completed
                 {
                     case 1:
                         nord_face = land;
-                        drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                        drawPosition.Add(land);
                         return true;
                     case 2:
                         if (rotation == 0)
                         {
                             nord_face = water;
-                            drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                            drawPosition.Add(land);
                             return true;
                         }
                         else if (rotation == 270)
                         {
                             nord_face = water;
-                            drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                            drawPosition.Add(water);
                             return true;
                         }
                         else
@@ -218,7 +207,7 @@ namespace Completed
                         if (rotation == 0)
                         {
                             nord_face = water;
-                            drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                            drawPosition.Add(water);
                             return true;
                         }
                         else
@@ -227,19 +216,19 @@ namespace Completed
                         if (rotation == 0)
                         {
                             nord_face = land;
-                            drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                            drawPosition.Add(land);
                             return true;
                         }
                         else if (rotation == 180)
                         {
                             nord_face = land;
-                            drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                            drawPosition.Add(water);
                             return true;
                         }
                         else if (rotation == 270)
                         {
                             nord_face = water;
-                            drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                            drawPosition.Add(land);
                             return true;
                         }
                         else
@@ -259,13 +248,13 @@ namespace Completed
                         if (rotation == 90)
                         {
                             nord_face = land;
-                            drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                            drawPosition.Add(land);
                             return true;
                         }
                         else if (rotation == 180)
                         {
                             nord_face = land;
-                            drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                            drawPosition.Add(water);
                             return true;
                         }
                         else
@@ -274,17 +263,17 @@ namespace Completed
                         if (rotation == 90)
                         {
                             nord_face = water;
-                            drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                            drawPosition.Add(land);
                             return true;
                         }else if (rotation == 180)
                         {
                             nord_face = land;
-                            drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                            drawPosition.Add(water);
                             return true;
                         }else if (rotation == 270)
                         {
                             nord_face = water;
-                            drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                            drawPosition.Add(water);
                             return true;
                         }
                         else
@@ -293,14 +282,14 @@ namespace Completed
                         if (rotation == 90)
                         {
                             nord_face = land;
-                            drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                            drawPosition.Add(land);
                             return true;
                         }
                         else
                             return false;
                     case 5:
                         nord_face = water;
-                        drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                        drawPosition.Add(water);
                         return true;
                 }
             }
@@ -311,18 +300,18 @@ namespace Completed
                 {
                     case 1:
                         nord_face = land;
-                        drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                        drawPosition.Add(land);
                         return true;
                     case 2:
                         if (rotation == 180)
                         {
                             nord_face = land;
-                            drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                            drawPosition.Add(water);
                             return true;
                         }else if (rotation == 270)
                         {
                             nord_face = water;
-                            drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                            drawPosition.Add(water);
                             return true;
                         } else
                             return false;
@@ -330,7 +319,7 @@ namespace Completed
                         if (rotation == 270)
                         {
                             nord_face = water;
-                            drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                            drawPosition.Add(water);
                             return true;
                         } else
                             return true;
@@ -338,19 +327,19 @@ namespace Completed
                         if (rotation == 90)
                         {
                             nord_face = land;
-                            drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                            drawPosition.Add(land);
                             return true;
                         }
                         else if (rotation == 180)
                         {
                             nord_face = land;
-                            drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                            drawPosition.Add(water);
                             return true;
                         }
                         else if (rotation == 270)
                         {
                             nord_face = water;
-                            drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                            drawPosition.Add(land);
                             return true;
                         }
                         else
@@ -370,13 +359,13 @@ namespace Completed
                         if (rotation == 0)
                         {
                             nord_face = water;
-                            drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                            drawPosition.Add(land);
                             return true;
                         }
                         else if (rotation == 90)
                         {
                             nord_face = land;
-                            drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                            drawPosition.Add(land);
                             return true;
                         }
                         else
@@ -385,19 +374,19 @@ namespace Completed
                         if (rotation == 0)
                         {
                             nord_face = water;
-                            drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                            drawPosition.Add(water);
                             return true;
                         }
                         else if (rotation == 90)
                         {
                             nord_face = water;
-                            drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                            drawPosition.Add(land);
                             return true;
                         }
                         else if (rotation == 180)
                         {
                             nord_face = land;
-                            drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                            drawPosition.Add(water);
                             return true;
                         }
                         else
@@ -406,14 +395,14 @@ namespace Completed
                         if (rotation == 0)
                         {
                             nord_face = land;
-                            drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                            drawPosition.Add(land);
                             return true;
                         }
                         else
                             return false;
                     case 5:
                         nord_face = water;
-                        drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                        drawPosition.Add(water);
                         return true;
                 }
             }
@@ -424,14 +413,14 @@ namespace Completed
                 {
                     case 1:
                         nord_face = land;
-                        drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                        drawPosition.Add(land);
                         return true;
 
                     case 2:
                         if (rotation == 270)
                         {
                             nord_face = water;
-                            drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                            drawPosition.Add(water);
                             return true;
                         } else
                             return false;
@@ -443,13 +432,13 @@ namespace Completed
                         if (rotation == 180)
                         {
                             nord_face = land;
-                            drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                            drawPosition.Add(water);
                             return true;
                         }
                         else if (rotation == 270)
                         {
                             nord_face = water;
-                            drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                            drawPosition.Add(land);
                             return true;
                         }
                         else
@@ -472,7 +461,7 @@ namespace Completed
                         if (rotation == 0)
                         {
                             nord_face = water;
-                            drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                            drawPosition.Add(land);
                             return true;
                         }
                         else
@@ -482,7 +471,7 @@ namespace Completed
                         if (rotation == 0)
                         {
                             nord_face = water;
-                            drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                            drawPosition.Add(water);
                             return true;
                         }
                         else
@@ -492,7 +481,7 @@ namespace Completed
                         if (rotation == 0)
                         {
                             nord_face = land;
-                            drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                            drawPosition.Add(land);
                             return true;
                         }
                         else
@@ -515,7 +504,7 @@ namespace Completed
                         if (rotation == 180)
                         {
                             nord_face = land;
-                            drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                            drawPosition.Add(water);
                             return true;
                         }
                         else
@@ -525,7 +514,7 @@ namespace Completed
                         if (rotation == 270)
                         {
                             nord_face = water;
-                            drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                            drawPosition.Add(water);
                             return true;
                         }
                         else
@@ -535,7 +524,7 @@ namespace Completed
                         if (rotation == 90)
                         {
                             nord_face = land;
-                            drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                            drawPosition.Add(land);
                             return true;
                         }
                         else
@@ -558,7 +547,7 @@ namespace Completed
                         if (rotation == 90)
                         {
                             nord_face = land;
-                            drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                            drawPosition.Add(land);
                             return true;
                         }
                         else
@@ -568,13 +557,13 @@ namespace Completed
                         if (rotation == 90)
                         {
                             nord_face = water;
-                            drawPosition = new List<string>(drawPosition) { land }.ToArray();
+                            drawPosition.Add(land);
                             return true;
                         }
                         else if (rotation == 180)
                         {
                             nord_face = land;
-                            drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                            drawPosition.Add(water);
                             return true;
                         }
                         else
@@ -585,7 +574,7 @@ namespace Completed
 
                     case 5:
                         nord_face = water;
-                        drawPosition = new List<string>(drawPosition) { water }.ToArray();
+                        drawPosition.Add(water);
                         return true;
 
                 }
@@ -594,7 +583,7 @@ namespace Completed
 
         }
 
-        Boolean tilePlacement()
+        Boolean TilePlacement()
         { 
             List<int> randomRotationList = new List<int>();
             for (int i = 0; i < 3; i++)
@@ -610,37 +599,26 @@ namespace Completed
                 }
             }
 
-            bool validating = true;
-            while (validating)
-            {
+            bool valid = false;
                 for  (int i = 0; i < 3; i++)
                 {
                     rotation = randomRotationList[i];
-                    if (validateTile())
-                    {
-                        validating = false;
-                        tileInstance.transform.eulerAngles = Vector3.forward * rotation;
-                        break;
-                    }           
+                    if (ValidateTile())
+                        {
+                            valid = true;
+                            Debug.Log("rotation: " + rotation);
+                            tileInstance = Instantiate(chosenTile, new Vector3(gridPositionX, gridPositionY, 0f), Quaternion.Euler(Vector3.forward*rotation));
+                            tileInstance.transform.SetParent(boardHolder);
+                            break;
+                        }           
                 }
-            }
-            return !validating;
+            return valid;
         }
 
         public void SetupScene()
         {
+            GameObject.Find("MainGameCamera").transform.position = new Vector3((columns * 1.2f / 2f), (rows * 1.2f / 2f), -10f);
             BoardSetup();
-            InitialiseList();
-
-            for (int i = 0; i < rows; i++) {
-                for (int j=0; j < columns; j++)
-                {
-                    GameObject tileChoise = terrainTiles[i];
-                    Instantiate(tileChoise, new Vector3(i, j, 0f), Quaternion.identity);
-                }
-
-            }
-            
         }
     }
 }
