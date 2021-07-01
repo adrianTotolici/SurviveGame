@@ -58,8 +58,8 @@ namespace Completed
         private const string water = "water";
         private const string none = "not set";
         private const string boardName = "Board";
-        public const int columns = 10;
-        public const int rows = 10;
+        public const int columns = 20;
+        public const int rows = 20;
 
         void BoardSetup()
         {
@@ -142,9 +142,9 @@ namespace Completed
                         return true;
                     case 2:
                         if ((rotation == 0) || (rotation == 270))
-                            nord_face = water;
-                        else
                             nord_face = land;
+                        else
+                            nord_face = water;
 
                         if ((rotation == 0) || (rotation == 90))
                             drawPosition.Add(land);
@@ -152,7 +152,7 @@ namespace Completed
                             drawPosition.Add(water);
                         return true;
                     case 3:
-                        if (rotation == 180)
+                        if (rotation == 0)
                             nord_face = land;
                         else
                             nord_face = water;
@@ -163,7 +163,7 @@ namespace Completed
                             drawPosition.Add(water);
                         return true;
                     case 4:
-                        if (rotation == 270)
+                        if (rotation == 90)
                             nord_face = water;
                         else
                             nord_face = land;
@@ -189,13 +189,13 @@ namespace Completed
                         drawPosition.Add(land);
                         return true;
                     case 2:
-                        if (rotation == 0)
+                        if (rotation == 90)
                         {
                             nord_face = water;
                             drawPosition.Add(land);
                             return true;
                         }
-                        else if (rotation == 270)
+                        else if (rotation == 180)
                         {
                             nord_face = water;
                             drawPosition.Add(water);
@@ -204,7 +204,7 @@ namespace Completed
                         else
                             return false;
                     case 3:
-                        if (rotation == 0)
+                        if (rotation == 180)
                         {
                             nord_face = water;
                             drawPosition.Add(water);
@@ -219,16 +219,16 @@ namespace Completed
                             drawPosition.Add(land);
                             return true;
                         }
+                        else if (rotation == 90)
+                        {
+                            nord_face = water;
+                            drawPosition.Add(land);
+                            return true;
+                        }
                         else if (rotation == 180)
                         {
                             nord_face = land;
                             drawPosition.Add(water);
-                            return true;
-                        }
-                        else if (rotation == 270)
-                        {
-                            nord_face = water;
-                            drawPosition.Add(land);
                             return true;
                         }
                         else
@@ -245,13 +245,13 @@ namespace Completed
                     case 1:
                         return false;
                     case 2:
-                        if (rotation == 90)
+                        if (rotation == 0)
                         {
                             nord_face = land;
                             drawPosition.Add(land);
                             return true;
                         }
-                        else if (rotation == 180)
+                        else if (rotation == 270)
                         {
                             nord_face = land;
                             drawPosition.Add(water);
@@ -260,15 +260,15 @@ namespace Completed
                         else
                             return false;
                     case 3:
-                        if (rotation == 90)
-                        {
-                            nord_face = water;
-                            drawPosition.Add(land);
-                            return true;
-                        }else if (rotation == 180)
+                        if (rotation == 0)
                         {
                             nord_face = land;
                             drawPosition.Add(water);
+                            return true;
+                        }else if (rotation == 90)
+                        {
+                            nord_face = water;
+                            drawPosition.Add(land);
                             return true;
                         }else if (rotation == 270)
                         {
@@ -279,7 +279,7 @@ namespace Completed
                         else
                             return false;
                     case 4:
-                        if (rotation == 90)
+                        if (rotation == 270)
                         {
                             nord_face = land;
                             drawPosition.Add(land);
@@ -305,12 +305,12 @@ namespace Completed
                     case 2:
                         if (rotation == 180)
                         {
-                            nord_face = land;
+                            nord_face = water;
                             drawPosition.Add(water);
                             return true;
                         }else if (rotation == 270)
                         {
-                            nord_face = water;
+                            nord_face = land;
                             drawPosition.Add(water);
                             return true;
                         } else
@@ -322,11 +322,11 @@ namespace Completed
                             drawPosition.Add(water);
                             return true;
                         } else
-                            return true;
+                            return false;
                     case 4:
                         if (rotation == 90)
                         {
-                            nord_face = land;
+                            nord_face = water;
                             drawPosition.Add(land);
                             return true;
                         }
@@ -338,7 +338,7 @@ namespace Completed
                         }
                         else if (rotation == 270)
                         {
-                            nord_face = water;
+                            nord_face = land;
                             drawPosition.Add(land);
                             return true;
                         }
@@ -358,13 +358,13 @@ namespace Completed
                     case 2:
                         if (rotation == 0)
                         {
-                            nord_face = water;
+                            nord_face = land;
                             drawPosition.Add(land);
                             return true;
                         }
                         else if (rotation == 90)
                         {
-                            nord_face = land;
+                            nord_face = water;
                             drawPosition.Add(land);
                             return true;
                         }
@@ -373,7 +373,7 @@ namespace Completed
                     case 3:
                         if (rotation == 0)
                         {
-                            nord_face = water;
+                            nord_face = land;
                             drawPosition.Add(water);
                             return true;
                         }
@@ -385,7 +385,7 @@ namespace Completed
                         }
                         else if (rotation == 180)
                         {
-                            nord_face = land;
+                            nord_face = water;
                             drawPosition.Add(water);
                             return true;
                         }
@@ -417,7 +417,7 @@ namespace Completed
                         return true;
 
                     case 2:
-                        if (rotation == 270)
+                        if (rotation == 180)
                         {
                             nord_face = water;
                             drawPosition.Add(water);
@@ -429,16 +429,16 @@ namespace Completed
                         return false;
 
                     case 4:
-                        if (rotation == 180)
-                        {
-                            nord_face = land;
-                            drawPosition.Add(water);
-                            return true;
-                        }
-                        else if (rotation == 270)
+                        if (rotation == 90)
                         {
                             nord_face = water;
                             drawPosition.Add(land);
+                            return true;
+                        }
+                        else if (rotation == 180)
+                        {
+                            nord_face = land;
+                            drawPosition.Add(water);
                             return true;
                         }
                         else
@@ -458,7 +458,7 @@ namespace Completed
                         return false;
 
                     case 2:
-                        if (rotation == 0)
+                        if (rotation == 90)
                         {
                             nord_face = water;
                             drawPosition.Add(land);
@@ -468,7 +468,7 @@ namespace Completed
                             return false;
 
                     case 3:
-                        if (rotation == 0)
+                        if (rotation == 180)
                         {
                             nord_face = water;
                             drawPosition.Add(water);
@@ -501,7 +501,7 @@ namespace Completed
                         return false;
 
                     case 2:
-                        if (rotation == 180)
+                        if (rotation == 270)
                         {
                             nord_face = land;
                             drawPosition.Add(water);
@@ -521,7 +521,7 @@ namespace Completed
                             return false;
 
                     case 4:
-                        if (rotation == 90)
+                        if (rotation == 270)
                         {
                             nord_face = land;
                             drawPosition.Add(land);
@@ -544,7 +544,7 @@ namespace Completed
                         return false;
 
                     case 2:
-                        if (rotation == 90)
+                        if (rotation == 0)
                         {
                             nord_face = land;
                             drawPosition.Add(land);
@@ -554,16 +554,16 @@ namespace Completed
                             return false;
 
                     case 3:
-                        if (rotation == 90)
-                        {
-                            nord_face = water;
-                            drawPosition.Add(land);
-                            return true;
-                        }
-                        else if (rotation == 180)
+                        if (rotation == 0)
                         {
                             nord_face = land;
                             drawPosition.Add(water);
+                            return true;
+                        }
+                        else if (rotation == 90)
+                        {
+                            nord_face = water;
+                            drawPosition.Add(land);
                             return true;
                         }
                         else
@@ -586,11 +586,11 @@ namespace Completed
         Boolean TilePlacement()
         { 
             List<int> randomRotationList = new List<int>();
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
             {
                 while (true)
                 {
-                    int randomRotation = Random.Range(0, 3);
+                    int randomRotation = Random.Range(0, 4);
                     if (!randomRotationList.Contains(randomRotation*90))
                     {
                         randomRotationList.Add(randomRotation*90);
@@ -600,15 +600,20 @@ namespace Completed
             }
 
             bool valid = false;
-                for  (int i = 0; i < 3; i++)
+                for  (int i = 0; i < 4; i++)
                 {
                     rotation = randomRotationList[i];
                     if (ValidateTile())
                         {
                             valid = true;
+                            if (rotation == 270)
+                                rotation = 90;
+                            else if (rotation == 90)
+                                rotation = -90;
                             Debug.Log("rotation: " + rotation);
-                            tileInstance = Instantiate(chosenTile, new Vector3(gridPositionX, gridPositionY, 0f), Quaternion.Euler(Vector3.forward*rotation));
+                            tileInstance = Instantiate(chosenTile, new Vector3(gridPositionX, gridPositionY, 0f), Quaternion.identity);
                             tileInstance.transform.SetParent(boardHolder);
+                            tileInstance.transform.localRotation = Quaternion.Euler(0,0,rotation);
                             break;
                         }           
                 }
