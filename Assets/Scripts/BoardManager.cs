@@ -33,6 +33,8 @@ namespace Completed
         public GameObject[] terrain4;
         // Terrain type 5
         public GameObject[] terrain5;
+        public GameObject[] res_tree;
+        public GameObject[] res_fish;
         // object instance od a terrain tile
         private GameObject tileInstance;
         // boarHolder
@@ -50,14 +52,19 @@ namespace Completed
         private List<String> drawPosition = new List<string>();
 
         private GameObject chosenTile;
+        private GameObject resChoise;
         private float gridPositionX;
         private float gridPositionY;
+
+        private List<Vector3> posibleResPosition = new List<Vector3>();
 
 
         private const string land = "land";
         private const string water = "water";
         private const string none = "not set";
         private const string boardName = "Board";
+        private const float fishRes = 2f;
+        private const float treeRes = 1f;
         public const int columns = 20;
         public const int rows = 20;
 
@@ -69,7 +76,7 @@ namespace Completed
 
             for (int x = 0; x < columns; x++)
             {
-                gridPositionX = x*1.2f;
+                gridPositionX = x*2.4f;
                 nord_face = none;
                 if (x > 0)
                 {
@@ -79,7 +86,7 @@ namespace Completed
                 Debug.Log("------------------------------------------------");
                 for (int y = 0; y < rows; y++)
                 {
-                    gridPositionY = y*1.2f;
+                    gridPositionY = y*2.4f;
                     bool validating = true;
                     Debug.Log("+++++++++");
                     if (x > 0)
@@ -614,16 +621,52 @@ namespace Completed
                             tileInstance = Instantiate(chosenTile, new Vector3(gridPositionX, gridPositionY, 0f), Quaternion.identity);
                             tileInstance.transform.SetParent(boardHolder);
                             tileInstance.transform.localRotation = Quaternion.Euler(0,0,rotation);
+                            
+                            if ((randomTile ==1) || (randomTile == 5))
+                            {
+                                float res;
+                                if (randomTile == 1)
+                                    res = treeRes;
+                                else
+                                    res = fishRes;
+                                posibleResPosition.Add(new Vector3(gridPositionX, gridPositionY, res));
+                            }
+                           
                             break;
                         }           
                 }
             return valid;
         }
 
+        void PlaceResources()
+        {
+            for (int i = 0; i < posibleResPosition.Count; i++)
+            {
+                int randomRes = Random.Range(0, 2);
+                if (randomRes == 1)
+                {
+                    Vector3 posibleRes = posibleResPosition.ElementAt(i);
+                    switch (posibleRes.z)
+                    {
+                        case 1:
+                            resChoise = res_tree[Random.Range(0, res_tree.Length)];
+                            break;
+                        case 2:
+                            resChoise = res_fish[0];
+                            break;
+                    }
+
+                    GameObject resInstance = Instantiate(resChoise, new Vector3(posibleRes.x, posibleRes.y, 0f), Quaternion.identity);
+                    resInstance.transform.SetParent(boardHolder);
+                }
+            }
+        }
+
         public void SetupScene()
         {
             GameObject.Find("MainGameCamera").transform.position = new Vector3((columns * 1.2f / 2f), (rows * 1.2f / 2f), -10f);
             BoardSetup();
+            PlaceResources();
         }
     }
 }

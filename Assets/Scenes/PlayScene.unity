@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &532287704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,6 +191,11 @@ MonoBehaviour:
   terrain5:
   - {fileID: 5015620942443424052, guid: 73fd2585433a3d744bf8d7d02e49c1f9, type: 3}
   - {fileID: 4811845473093871617, guid: 45802a1758a94e7448b583b5b40082a2, type: 3}
+  res_tree:
+  - {fileID: 4997555349460293439, guid: 7fac803d64f8022478f7d393384d8b57, type: 3}
+  - {fileID: 411346423435516182, guid: 65f7eb813ddfe4a45af435f70120c3a3, type: 3}
+  res_fish:
+  - {fileID: 6425862650997338913, guid: 460721af5672fb94ea5e14f870856359, type: 3}
 --- !u!1 &1527378599
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,7 +247,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 90
+  field of view: 157.8
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
